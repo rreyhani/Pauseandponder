@@ -26,9 +26,23 @@ a.ref:hover,a.ref:focus-visible{text-decoration:underline;text-underline-offset:
 .share:active{transform:scale(.98)}
 .share svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.lang{position:fixed;z-index:2;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));height:48px;display:flex;align-items:center;padding:0 10px;font-size:15px;letter-spacing:.03em;color:var(--ink);opacity:.4;text-decoration:none;transition:opacity .35s ease;border-radius:24px}
+.corner{position:fixed;z-index:2;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:0}
+.lang{height:48px;display:flex;align-items:center;padding:0 10px;font-size:15px;letter-spacing:.03em;color:var(--ink);opacity:.4;text-decoration:none;transition:opacity .35s ease;border-radius:24px}
 .lang:hover,.lang:focus-visible{opacity:.75}
-@media (min-width:720px){.lang{left:32px;bottom:32px;font-size:16px}}
+.contact{width:44px;height:48px;display:flex;align-items:center;justify-content:center;padding:0;background:none;border:0;color:var(--ink);opacity:.36;transition:opacity .35s ease;border-radius:22px;cursor:pointer}
+.contact svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.contact:hover,.contact:focus-visible{opacity:.75}
+@media (min-width:720px){.corner{left:32px;bottom:32px}.lang{font-size:16px}}
+.cform{display:flex;flex-direction:column;gap:12px}
+.cform label{display:flex;flex-direction:column;gap:5px;font-size:14px;color:var(--muted)}
+.cin{box-sizing:border-box;width:100%;min-height:46px;padding:10px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.7);color:var(--ink);font:inherit;font-size:17px}
+textarea.cin{min-height:110px;resize:vertical}
+.cin:focus{outline:2px solid var(--ink);outline-offset:1px}
+.cform .ck{flex-direction:row;align-items:center;gap:10px;font-size:15px;color:var(--ink);cursor:pointer}
+.ck input{width:20px;height:20px;margin:0;accent-color:#1F1E24;flex:none}
+.cerr{margin:0;font-size:15px;color:#B3261E}
+.chp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cdone{margin:0;font-size:18px;line-height:1.45}
 .next{position:fixed;z-index:2;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:48px;height:48px;display:flex;align-items:center;justify-content:center;padding:0;background:none;border:0;border-radius:50%;color:var(--ink);opacity:.26;cursor:pointer;transition:opacity .35s ease}
 .next:hover,.next:focus-visible{opacity:.72}
 .next:active{transform:translateX(2px)}
@@ -74,7 +88,7 @@ a.ref:hover,a.ref:focus-visible{text-decoration:underline;text-underline-offset:
 </figcaption>
 </figure>
 </main>
-<a class="lang" id="langLink" href="../en/" hreflang="en" lang="en">English</a>
+<div class="corner"><a class="lang" id="langLink" href="../en/" hreflang="en" lang="en">English</a><button class="contact" id="contactBtn" type="button" aria-label="Kontakt" title="Kontakt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M4 7l8 6 8-6"/></svg></button></div>
 <button class="next" id="nextBtn" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><path d="M14 6l6 6-6 6"/></svg></button>
 <div class="scrim" id="scrim" hidden></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
@@ -83,6 +97,22 @@ a.ref:hover,a.ref:focus-visible{text-decoration:underline;text-underline-offset:
 <p class="sub" id="orline"></p>
 <div class="opts" id="opts"></div>
 <button class="close" id="closeBtn" type="button">Close</button>
+</div>
+<div class="sheet" id="csheet" role="dialog" aria-modal="true" aria-labelledby="cTitle" hidden>
+<h2 id="cTitle"></h2>
+<form class="cform" id="cform" novalidate>
+<p class="sub" id="cIntro"></p>
+<label><span id="lName"></span><input class="cin" id="cName" type="text" autocomplete="name"></label>
+<label><span id="lEmail"></span><input class="cin" id="cEmail" type="email" autocomplete="email"></label>
+<label><span id="lMsg"></span><textarea class="cin" id="cMsg" rows="4"></textarea></label>
+<label id="cPhoneWrap"><span id="lPhone"></span><input class="cin" id="cPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+49 170 1234567"></label>
+<label class="ck"><input type="checkbox" id="cWa"><span id="lWa"></span></label>
+<div class="chp" aria-hidden="true"><input type="text" id="cHp" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
+<p class="cerr" id="cErr" role="alert" hidden></p>
+<button class="opt primary" id="cSend" type="submit"></button>
+</form>
+<p class="cdone" id="cDone" hidden></p>
+<button class="close" id="cClose" type="button"></button>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
 <script>
@@ -211,6 +241,51 @@ function goNext(){IDX=nextIndex();BG=nextBg();q=Q[IDX];CUR={text:q[0],author:q[1
  try{if(location.hash)history.replaceState(null,"",location.pathname+location.search)}catch(e){}
  render();restart(document.getElementById("bg"));restart(document.querySelector(".card"));setTimeout(function(){imgPromise().catch(function(){})},900)}
 if(SHOW_NEXT){var nb=document.getElementById("nextBtn");nb.hidden=false;nb.setAttribute("aria-label",T.next);nb.title=T.next;nb.addEventListener("click",goNext)}
+
+/* ---------- Contact form (sent through EmailJS, like the orders) ---------- */
+var CONTACT={key:"lQJ7yo9MPXdRVjktk",service:"service_i94ego8",template:"template_b66s43j"};
+var CT={en:{title:"Get in touch",intro:"Write us a few words. We will reply by email.",name:"Your name",email:"Your email",msg:"Your message",wa:"You can reach me on WhatsApp at this number",phone:"Your phone number with country code (optional)",send:"Send message",sending:"Sending…",close:"Close",
+ done:"Thank you. Your message has been sent, and we will get back to you soon.",eName:"Please enter your name.",eEmail:"Please enter a valid email address.",eMsg:"Please write a short message.",ePhone:"Please enter your phone number, including the country code.",eSend:"Sending did not work. Please try again in a moment."},
+ de:{title:"Kontakt",intro:"Schreiben Sie uns ein paar Zeilen. Wir antworten per E-Mail.",name:"Ihr Name",email:"Ihre E-Mail",msg:"Ihre Nachricht",wa:"Sie können mich unter dieser Nummer auf WhatsApp erreichen",phone:"Ihre Telefonnummer mit Ländervorwahl (optional)",send:"Nachricht senden",sending:"Wird gesendet…",close:"Schließen",
+ done:"Vielen Dank. Ihre Nachricht wurde gesendet, wir melden uns bald.",eName:"Bitte geben Sie Ihren Namen ein.",eEmail:"Bitte geben Sie eine gültige E-Mail-Adresse ein.",eMsg:"Bitte schreiben Sie eine kurze Nachricht.",ePhone:"Bitte geben Sie Ihre Telefonnummer mit Ländervorwahl ein.",eSend:"Das Senden hat nicht geklappt. Bitte versuchen Sie es gleich noch einmal."}}[LANG]||{};
+(function(){var ids={cTitle:"title",cIntro:"intro",lName:"name",lEmail:"email",lMsg:"msg",lWa:"wa",lPhone:"phone",cSend:"send",cClose:"close"};
+ for(var k in ids){document.getElementById(k).textContent=CT[ids[k]]}})();
+var cLast=null;
+function cEsc(s){return String(s).replace(/[&<>"']/g,function(ch){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]})}
+function openContact(){cLast=document.activeElement;document.getElementById("scrim").hidden=false;var s=document.getElementById("csheet");s.hidden=false;
+ document.getElementById("cform").hidden=false;document.getElementById("cDone").hidden=true;document.getElementById("cErr").hidden=true;document.getElementById("cName").focus()}
+function closeContact(){document.getElementById("csheet").hidden=true;if(document.getElementById("sheet").hidden)document.getElementById("scrim").hidden=true;if(cLast)cLast.focus()}
+document.getElementById("contactBtn").addEventListener("click",openContact);
+document.getElementById("cClose").addEventListener("click",closeContact);
+document.getElementById("scrim").addEventListener("click",function(){if(!document.getElementById("csheet").hidden)closeContact()});
+document.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&!document.getElementById("csheet").hidden)closeContact()});
+document.getElementById("cform").addEventListener("input",function(){document.getElementById("cErr").hidden=true});
+document.getElementById("cform").addEventListener("submit",function(ev){ev.preventDefault();
+ var err=document.getElementById("cErr");err.hidden=true;
+ function bad(m,id){err.textContent=m;err.hidden=false;document.getElementById(id).focus()}
+ if(/https?:|www\./i.test(document.getElementById("cHp").value))return;
+ var n=document.getElementById("cName").value.trim(),e=document.getElementById("cEmail").value.trim(),m=document.getElementById("cMsg").value.trim(),wa=document.getElementById("cWa").checked,ph=document.getElementById("cPhone").value.trim();
+ if(!n)return bad(CT.eName,"cName");
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))return bad(CT.eEmail,"cEmail");
+ if(!m)return bad(CT.eMsg,"cMsg");
+ if((wa||ph)&&ph.replace(/\D/g,"").length<6)return bad(CT.ePhone,"cPhone");
+ var F="font-family:Helvetica,Arial,sans-serif;",digits=ph.replace(/[^\d+]/g,"").replace(/^\+/,"").replace(/^00/,"");
+ function row(l,v){return '<tr><td style="'+F+'font-size:13px;color:#6B6970;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap;">'+l+'</td><td style="'+F+'font-size:15px;color:#1F1E24;padding:6px 0;vertical-align:top;">'+v+'</td></tr>'}
+ var html='<div style="background:#FAFAF8;padding:16px 8px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;margin:0 auto;background:#fff;border:1px solid #E6E4E0;border-radius:14px;"><tr><td style="padding:24px 20px;">'+
+  '<div style="'+F+'font-size:12px;letter-spacing:.06em;color:#6B6970;">PAUSE AND PONDER · NEW MESSAGE</div>'+
+  '<div style="'+F+'font-size:22px;font-weight:bold;color:#1F1E24;margin:6px 0 14px;">From '+cEsc(n)+'</div>'+
+  '<div style="'+F+'font-size:16px;line-height:1.55;color:#1F1E24;white-space:pre-wrap;border-left:3px solid #E8408C;padding:4px 0 4px 14px;margin-bottom:18px;">'+cEsc(m)+'</div>'+
+  '<table role="presentation" cellpadding="0" cellspacing="0">'+row("Email",'<a href="mailto:'+cEsc(e)+'" style="color:#1F1E24;">'+cEsc(e)+'</a>')+
+  row("Phone",ph?'<a href="tel:'+cEsc(ph.replace(/\s/g,""))+'" style="color:#1F1E24;">'+cEsc(ph)+'</a> &nbsp;<a href="https://wa.me/'+cEsc(digits)+'" style="color:#1F1E24;">Open WhatsApp chat</a>':"Not given")+
+  row("WhatsApp",wa?"Yes, prefers WhatsApp":"No")+
+  row("Page",LANG==="de"?"Quote page (Deutsch)":"Quote page (English)")+row("Received",cEsc(new Date().toLocaleString("de-DE",{dateStyle:"medium",timeStyle:"short"})))+
+  '</table></td></tr></table></div>';
+ var btn=document.getElementById("cSend");btn.disabled=true;btn.textContent=CT.sending;
+ fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:CONTACT.service,template_id:CONTACT.template,user_id:CONTACT.key,
+  template_params:{subject:"Message from "+n+" (Pause and Ponder)",customer_name:n,customer_email:e,customer_phone:ph,whatsapp:wa?"Yes":"No",order_text:m,order_html:html}})})
+ .then(function(r){if(!r.ok)throw new Error(r.status);document.getElementById("cform").hidden=true;var d=document.getElementById("cDone");d.textContent=CT.done;d.hidden=false;document.getElementById("cform").reset();})
+ .catch(function(){bad(CT.eSend,"cMsg")})
+ .then(function(){btn.disabled=false;btn.textContent=CT.send})});
 </script>
 </body>
 </html>

@@ -125,6 +125,10 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
 .foot{margin-top:8px;padding-top:20px;border-top:1px solid var(--line)}
 .foot p{margin:0;font-size:12.5px;line-height:1.6;color:var(--soft);text-wrap:pretty}
 .foot b{display:block;font-weight:600;color:var(--muted);margin-bottom:2px}
+.foot .ask{display:flex;justify-content:center;margin:0 0 22px}
+.foot .ask a{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px;transition:color .15s,text-decoration-color .15s}
+.foot .ask a:hover,.foot .ask a:focus-visible{color:var(--ink,#1d1c20);text-decoration-color:currentColor}
+.foot .ask svg{width:16px;height:16px;flex:none}
 .card{position:relative}
 .sticker{position:absolute;z-index:2;top:-30px;right:-6px;width:112px;height:112px;transform:rotate(9deg);text-decoration:none;transition:transform .25s ease}
 .sticker:hover,.sticker:focus-visible{transform:rotate(0deg) scale(1.05)}
@@ -142,6 +146,13 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
   .ill{width:120px;height:120px}
   .step p{font-size:18px}
 }
+.cmodal{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(31,30,36,.28)}
+.cbox{width:100%;max-width:480px;max-height:92vh;overflow:auto;box-sizing:border-box;background:#fff;border-radius:20px 20px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;box-shadow:0 -10px 40px rgba(31,30,36,.15)}
+.cbox h2{font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:24px}
+.cbox .cintro{margin:0;font-size:14px;color:var(--muted);line-height:1.5}
+.cbox .ctopic{align-self:flex-start;font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:#E6F4EC;color:#2C4639}
+.cbox .cdone{margin:0;font-size:16px;line-height:1.5}
+@media (min-width:600px){.cmodal{align-items:center}.cbox{border-radius:20px}}
 </style>
 </head>
 <body>
@@ -191,13 +202,13 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
 <p class="lead">Every piece comes on a ball chain. Each product is sold from 10 pieces, in any mix of colours and languages. The more you order of one product, the lower the price per piece.</p>
 <div class="notes">
 <p class="note-fund"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17s-6.5-3.9-6.5-8.6A3.6 3.6 0 0 1 10 6.3a3.6 3.6 0 0 1 6.5 2.1C16.5 13.1 10 17 10 17z" fill="none" stroke="#E8408C" stroke-width="1.5" stroke-linejoin="round"/></svg><span><b>Proceeds go to the Bahá’í Fund</b>A small part covers the materials. The greater part of every order goes to the Fund.</span></p>
-<p class="note-comm"><svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="#6B6970" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="2.4"/><path d="M5.8 16.5c0-2.6 1.9-4.6 4.2-4.6s4.2 2 4.2 4.6"/><circle cx="4.6" cy="8.6" r="1.8"/><path d="M1.8 16c.2-2 1.3-3.4 3-3.6"/><circle cx="15.4" cy="8.6" r="1.8"/><path d="M18.2 16c-.2-2-1.3-3.4-3-3.6"/></g></svg><span><b>Raising funds for your own community?</b>We offer separate pricing for community fundraising. <a href="mailto:hello@pauseandponder.de?subject=Keychains%20for%20community%20fundraising">Write to us</a> and we will tell you more.</span></p>
+<p class="note-comm"><svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="#6B6970" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="2.4"/><path d="M5.8 16.5c0-2.6 1.9-4.6 4.2-4.6s4.2 2 4.2 4.6"/><circle cx="4.6" cy="8.6" r="1.8"/><path d="M1.8 16c.2-2 1.3-3.4 3-3.6"/><circle cx="15.4" cy="8.6" r="1.8"/><path d="M18.2 16c-.2-2-1.3-3.4-3-3.6"/></g></svg><span><b>Raising funds for your own community?</b>We offer separate pricing for community fundraising. <a href="#" data-contact="community">Write to us</a> and we will tell you more.</span></p>
 </div>
 </header>
 
 <form id="form" novalidate style="display:flex;flex-direction:column;gap:32px">
 <div class="products" id="products"></div>
-<a class="sticker" href="mailto:hello@pauseandponder.de?subject=Custom%20colour%20combination" aria-label="Want a different colour combination? Write to us"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="100.00,50.00 94.22,54.98 98.75,61.13 92.00,64.70 95.05,71.69 87.68,73.68 89.09,81.17 81.47,81.47 81.17,89.09 73.68,87.68 71.69,95.05 64.70,92.00 61.13,98.75 54.98,94.22 50.00,100.00 45.02,94.22 38.87,98.75 35.30,92.00 28.31,95.05 26.32,87.68 18.83,89.09 18.53,81.47 10.91,81.17 12.32,73.68 4.95,71.69 8.00,64.70 1.25,61.13 5.78,54.98 0.00,50.00 5.78,45.02 1.25,38.87 8.00,35.30 4.95,28.31 12.32,26.32 10.91,18.83 18.53,18.53 18.83,10.91 26.32,12.32 28.31,4.95 35.30,8.00 38.87,1.25 45.02,5.78 50.00,0.00 54.98,5.78 61.13,1.25 64.70,8.00 71.69,4.95 73.68,12.32 81.17,10.91 81.47,18.53 89.09,18.83 87.68,26.32 95.05,28.31 92.00,35.30 98.75,38.87 94.22,45.02" fill="#E8408C"/><circle cx="50" cy="50" r="39" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="2.5 2.5" opacity=".75"/></svg><span>Other colour<br>mixes?<b>Just ask!</b></span></a>
+<a class="sticker" href="#" data-contact="colours" aria-label="Want a different colour combination? Write to us"><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="100.00,50.00 94.22,54.98 98.75,61.13 92.00,64.70 95.05,71.69 87.68,73.68 89.09,81.17 81.47,81.47 81.17,89.09 73.68,87.68 71.69,95.05 64.70,92.00 61.13,98.75 54.98,94.22 50.00,100.00 45.02,94.22 38.87,98.75 35.30,92.00 28.31,95.05 26.32,87.68 18.83,89.09 18.53,81.47 10.91,81.17 12.32,73.68 4.95,71.69 8.00,64.70 1.25,61.13 5.78,54.98 0.00,50.00 5.78,45.02 1.25,38.87 8.00,35.30 4.95,28.31 12.32,26.32 10.91,18.83 18.53,18.53 18.83,10.91 26.32,12.32 28.31,4.95 35.30,8.00 38.87,1.25 45.02,5.78 50.00,0.00 54.98,5.78 61.13,1.25 64.70,8.00 71.69,4.95 73.68,12.32 81.17,10.91 81.47,18.53 89.09,18.83 87.68,26.32 95.05,28.31 92.00,35.30 98.75,38.87 94.22,45.02" fill="#E8408C"/><circle cx="50" cy="50" r="39" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="2.5 2.5" opacity=".75"/></svg><span>Other colour<br>mixes?<b>Just ask!</b></span></a>
 
 <div class="summary" aria-live="polite">
 <h2>Your order</h2>
@@ -211,7 +222,7 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
 <h2>Your details</h2>
 <label class="f">Name<input class="in" id="name" name="name" type="text" autocomplete="name" required></label>
 <label class="f">Email<input class="in" id="email" name="email" type="email" autocomplete="email" required></label>
-<label class="f">Mobile phone<input class="in" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+49 170 1234567" required></label>
+<label class="f">Mobile phone, with country code<input class="in" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+49 170 1234567" required></label>
 <label class="check wa"><input type="checkbox" id="whatsapp" name="whatsapp">You can reach me on WhatsApp at this number</label>
 <label class="f">Delivery address<textarea class="in" id="address" name="address" rows="3" autocomplete="street-address" required></textarea></label>
 <label class="f">Note (optional)<textarea class="in" id="message" name="message" rows="2"></textarea></label>
@@ -234,10 +245,30 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
 <button class="link" type="button" id="again">Place another order</button>
 </section>
 <footer class="foot">
+<div class="ask"><a href="#" data-contact=""><svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="2.5" y="4.5" width="15" height="11" rx="1.8"/><path d="M3 5.5l7 5.5 7-5.5"/></g></svg>Questions? Get in touch</a></div>
 <p><b>A private, non-commercial initiative</b>Pause and Ponder is not a business, and nobody involved earns anything from it. The prices cover the cost of materials, and everything beyond that is passed on in full as a donation to the Bahá’í Fund. This page is shared personally and is not publicly listed. Orders are collected here only to keep track of requests.</p>
 </footer>
 </main>
 
+<div class="cmodal" id="cmodal" hidden role="dialog" aria-modal="true" aria-labelledby="cTitle">
+<div class="cbox">
+<h2 id="cTitle"></h2>
+<span class="ctopic" id="cTopic" hidden></span>
+<form id="cform" class="form" novalidate>
+<p class="cintro" id="cIntro"></p>
+<label class="f"><span id="lName"></span><input class="in" id="cName" type="text" autocomplete="name"></label>
+<label class="f"><span id="lEmail"></span><input class="in" id="cEmail" type="email" autocomplete="email"></label>
+<label class="f"><span id="lMsg"></span><textarea class="in" id="cMsg" rows="4"></textarea></label>
+<label class="f" id="cPhoneWrap"><span id="lPhone"></span><input class="in" id="cPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+49 170 1234567"></label>
+<label class="check wa"><input type="checkbox" id="cWa"><span id="lWa"></span></label>
+<div class="hp" aria-hidden="true"><input type="text" id="cHp" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
+<p class="err" id="cErr" role="alert" hidden></p>
+<button class="btn" id="cSend" type="submit"></button>
+</form>
+<p class="cdone" id="cDone" hidden></p>
+<button class="link" id="cClose" type="button" style="align-self:center"></button>
+</div>
+</div>
 <script>
 /* ================= Settings: edit here ================= */
 var CONFIG = {
@@ -514,6 +545,59 @@ document.getElementById("again").addEventListener("click", function () {
   document.getElementById("orderView").hidden = false;
   window.scrollTo(0, 0);
 });
+
+/* ---------- Contact panel (sent through EmailJS, like the orders) ---------- */
+var CT = (PAGE_LANG === "Deutsch") ? {title:"Kontakt",intro:"Schreiben Sie uns ein paar Zeilen. Wir antworten per E-Mail.",name:"Ihr Name",email:"Ihre E-Mail",msg:"Ihre Nachricht",wa:"Sie können mich unter dieser Nummer auf WhatsApp erreichen",phone:"Ihre Telefonnummer mit Ländervorwahl (optional)",send:"Nachricht senden",sending:"Wird gesendet…",close:"Schließen",
+  done:"Vielen Dank. Ihre Nachricht wurde gesendet, wir melden uns bald.",eName:"Bitte geben Sie Ihren Namen ein.",eEmail:"Bitte geben Sie eine gültige E-Mail-Adresse ein.",eMsg:"Bitte schreiben Sie eine kurze Nachricht.",ePhone:"Bitte geben Sie Ihre Telefonnummer mit Ländervorwahl ein.",eSend:"Das Senden hat nicht geklappt. Bitte versuchen Sie es gleich noch einmal.",
+  topics:{community:"Spendenaktion für eine Gemeinde",colours:"Eigene Farbkombination"}}
+ : {title:"Get in touch",intro:"Write us a few words. We will reply by email.",name:"Your name",email:"Your email",msg:"Your message",wa:"You can reach me on WhatsApp at this number",phone:"Your phone number with country code (optional)",send:"Send message",sending:"Sending…",close:"Close",
+  done:"Thank you. Your message has been sent, and we will get back to you soon.",eName:"Please enter your name.",eEmail:"Please enter a valid email address.",eMsg:"Please write a short message.",ePhone:"Please enter your phone number, including the country code.",eSend:"Sending did not work. Please try again in a moment.",
+  topics:{community:"Community fundraising",colours:"Custom colour combination"}};
+var TOPIC_EN = {community:"Community fundraising",colours:"Custom colour combination"};
+(function(){var ids={cTitle:"title",cIntro:"intro",lName:"name",lEmail:"email",lMsg:"msg",lWa:"wa",lPhone:"phone",cSend:"send",cClose:"close"};
+ for (var k in ids) document.getElementById(k).textContent = CT[ids[k]];})();
+var cTopicKey = "", cLast = null;
+function openContact(topic){cTopicKey = topic || ""; cLast = document.activeElement;
+ var tp=document.getElementById("cTopic"); tp.hidden=!cTopicKey; tp.textContent=cTopicKey?CT.topics[cTopicKey]:"";
+ document.getElementById("cmodal").hidden=false; document.getElementById("cform").hidden=false; document.getElementById("cDone").hidden=true; document.getElementById("cErr").hidden=true;
+ var on=document.getElementById("name").value.trim(), oe=document.getElementById("email").value.trim();
+ if(on&&!document.getElementById("cName").value)document.getElementById("cName").value=on;
+ if(oe&&!document.getElementById("cEmail").value)document.getElementById("cEmail").value=oe;
+ document.getElementById(document.getElementById("cName").value?"cMsg":"cName").focus();}
+function closeContact(){document.getElementById("cmodal").hidden=true; if(cLast) cLast.focus();}
+Array.prototype.forEach.call(document.querySelectorAll("[data-contact]"),function(a){a.addEventListener("click",function(ev){ev.preventDefault();openContact(a.getAttribute("data-contact"))})});
+document.getElementById("cClose").addEventListener("click",closeContact);
+document.getElementById("cmodal").addEventListener("click",function(ev){if(ev.target===this)closeContact()});
+document.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&!document.getElementById("cmodal").hidden)closeContact()});
+document.getElementById("cform").addEventListener("input",function(){document.getElementById("cErr").hidden=true});
+document.getElementById("cform").addEventListener("submit",function(ev){ev.preventDefault();
+ var err=document.getElementById("cErr");err.hidden=true;
+ function bad(m,id){err.textContent=m;err.hidden=false;document.getElementById(id).focus()}
+ if(/https?:|www\./i.test(document.getElementById("cHp").value))return;
+ var n=document.getElementById("cName").value.trim(),e=document.getElementById("cEmail").value.trim(),m=document.getElementById("cMsg").value.trim(),wa=document.getElementById("cWa").checked,ph=document.getElementById("cPhone").value.trim();
+ if(!n)return bad(CT.eName,"cName");
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))return bad(CT.eEmail,"cEmail");
+ if(!m)return bad(CT.eMsg,"cMsg");
+ if((wa||ph)&&ph.replace(/\D/g,"").length<6)return bad(CT.ePhone,"cPhone");
+ var F="font-family:Helvetica,Arial,sans-serif;",digits=ph.replace(/[^\d+]/g,"").replace(/^\+/,"").replace(/^00/,"");
+ var topic=cTopicKey?TOPIC_EN[cTopicKey]:"General question";
+ function row(l,v){return '<tr><td style="'+F+'font-size:13px;color:#6B6970;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap;">'+l+'</td><td style="'+F+'font-size:15px;color:#1F1E24;padding:6px 0;vertical-align:top;">'+v+'</td></tr>'}
+ var html='<div style="background:#FAFAF8;padding:16px 8px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;margin:0 auto;background:#fff;border:1px solid #E6E4E0;border-radius:14px;"><tr><td style="padding:24px 20px;">'+
+  '<div style="'+F+'font-size:12px;letter-spacing:.06em;color:#6B6970;">PAUSE AND PONDER · NEW MESSAGE</div>'+
+  '<div style="'+F+'font-size:22px;font-weight:bold;color:#1F1E24;margin:6px 0 4px;">From '+esc(n)+'</div>'+
+  '<div style="'+F+'font-size:14px;color:#55535C;margin-bottom:14px;">Topic: '+esc(topic)+'</div>'+
+  '<div style="'+F+'font-size:16px;line-height:1.55;color:#1F1E24;white-space:pre-wrap;border-left:3px solid #E8408C;padding:4px 0 4px 14px;margin-bottom:18px;">'+esc(m)+'</div>'+
+  '<table role="presentation" cellpadding="0" cellspacing="0">'+row("Email",'<a href="mailto:'+esc(e)+'" style="color:#1F1E24;">'+esc(e)+'</a>')+
+  row("Phone",ph?'<a href="tel:'+esc(ph.replace(/\s/g,""))+'" style="color:#1F1E24;">'+esc(ph)+'</a> &nbsp;<a href="https://wa.me/'+esc(digits)+'" style="color:#1F1E24;">Open WhatsApp chat</a>':"Not given")+
+  row("WhatsApp",wa?"Yes, prefers WhatsApp":"No")+
+  row("Page","Order page ("+PAGE_LANG+")")+row("Received",esc(new Date().toLocaleString("de-DE",{dateStyle:"medium",timeStyle:"short"})))+
+  '</table></td></tr></table></div>';
+ var b=document.getElementById("cSend");b.disabled=true;b.textContent=CT.sending;
+ fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:CONFIG.emailjsServiceId,template_id:CONFIG.emailjsTemplateId,user_id:CONFIG.emailjsPublicKey,
+  template_params:{subject:"Message from "+n+": "+topic,customer_name:n,customer_email:e,customer_phone:ph,whatsapp:wa?"Yes":"No",order_text:m,order_html:html}})})
+ .then(function(r){if(!r.ok)throw new Error(r.status);document.getElementById("cform").hidden=true;var d=document.getElementById("cDone");d.textContent=CT.done;d.hidden=false;document.getElementById("cMsg").value=""})
+ .catch(function(){bad(CT.eSend,"cMsg")})
+ .then(function(){b.disabled=false;b.textContent=CT.send})});
 update();
 </script>
 </body>
