@@ -215,7 +215,7 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
 <label class="check wa"><input type="checkbox" id="whatsapp" name="whatsapp">You can reach me on WhatsApp at this number</label>
 <label class="f">Delivery address<textarea class="in" id="address" name="address" rows="3" autocomplete="street-address" required></textarea></label>
 <label class="f">Note (optional)<textarea class="in" id="message" name="message" rows="2"></textarea></label>
-<div class="hp" aria-hidden="true"><label>Leave empty<input type="text" id="company" tabindex="-1" autocomplete="off"></label></div>
+<div class="hp" aria-hidden="true"><label>Leave empty<input type="text" id="pp_hp_x7" name="pp_hp_x7" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></label></div>
 <label class="check"><input type="checkbox" id="consent" required>I agree that my details are used to process this order.</label>
 <p class="err" id="err" role="alert" hidden></p>
 <button class="btn" id="submit" type="submit">Send order</button>
@@ -242,7 +242,7 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
 /* ================= Settings: edit here ================= */
 var CONFIG = {
   // Fill these in from your EmailJS account to send real emails. Leave empty for test mode.
-  emailjsPublicKey: "pUddk06MH0PjICWP8",
+  emailjsPublicKey: "lQJ7yo9MPXdRVjktk",
   emailjsServiceId: "service_i94ego8",
   emailjsTemplateId: "template_b66s43j",
   // Where the product pictures live online, used inside the email
@@ -447,7 +447,7 @@ function showErr(msg, focusId) { errEl.textContent = msg; errEl.hidden = false; 
 form.addEventListener("submit", function (ev) {
   ev.preventDefault();
   errEl.hidden = true;
-  if (document.getElementById("company").value) return; // spam trap
+  if (/https?:|www\./i.test(document.getElementById("pp_hp_x7").value)) return; // spam trap: only bots put links into this hidden field
   var o = readOrder();
   o.name = document.getElementById("name").value.trim();
   o.email = document.getElementById("email").value.trim();
