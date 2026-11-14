@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Sticker Sheets · Pause and Ponder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+[hidden]{display:none!important}
+html,body{margin:0}
+img{max-width:100%}
+/* Layout: same family as the keychain order page. Gallery on the left, the sheet you are building on the right (a bottom tray on phones). */
+:root{
+  --ink:#1F1E24;--muted:#55535C;--soft:#6B6970;--ground:#FAFAF8;--card:#FFFFFF;--line:#E6E4E0;--line2:#F1EFEB;--chip:#F3F1ED;
+  --paper:#FFFFFF;--paperline:#D9D6D0;--slot:#F4F2EE;
+  --mint:#E6F4EC;--mintB:#B9DEC9;--mintT:#2C4639;--pink:#FCE7F1;--pinkB:#F4BCD5;--pinkT:#6B2D4A;
+  --hot:#E8408C;--mock:#FFF3D6;--mockT:#6A4C0C;--shadow:rgba(31,30,36,.10);
+  --f-ui:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;--f-read:'EB Garamond',Georgia,'Times New Roman',serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ink:#F1EFEA;--muted:#C5C2BB;--soft:#9E9B95;--ground:#17161A;--card:#211F25;--line:#34313A;--line2:#2A282F;--chip:#2C2A31;
+  --paper:#2A282F;--paperline:#4A4652;--slot:#322F37;
+  --mint:#1E3328;--mintB:#2F5240;--mintT:#BFE3CD;--pink:#3A2230;--pinkB:#5C3349;--pinkT:#F3C3DA;
+  --mock:#3A2F14;--mockT:#F2D58E;--shadow:rgba(0,0,0,.35);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ink:#F1EFEA;--muted:#C5C2BB;--soft:#9E9B95;--ground:#17161A;--card:#211F25;--line:#34313A;--line2:#2A282F;--chip:#2C2A31;
+  --paper:#2A282F;--paperline:#4A4652;--slot:#322F37;
+  --mint:#1E3328;--mintB:#2F5240;--mintT:#BFE3CD;--pink:#3A2230;--pinkB:#5C3349;--pinkT:#F3C3DA;
+  --mock:#3A2F14;--mockT:#F2D58E;--shadow:rgba(0,0,0,.35);color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-ui);font-size:15px;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--hot);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1100px;margin:0 auto;padding-block:28px 140px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+.mockbar{background:var(--mock);color:var(--mockT);border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mockbar b{font-weight:700}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px}
+.brand{font-family:var(--f-read);font-size:20px;color:var(--ink);text-decoration:none}
+.lang{color:var(--soft);text-decoration:none}
+.kicker{margin:0 0 6px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+h1{margin:0;font-family:var(--f-read);font-weight:400;font-size:clamp(32px,5vw,44px);line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+.lead{margin:12px 0 0;max-width:62ch;font-size:15px;line-height:1.6;color:var(--muted)}
+.steps{display:flex;flex-wrap:wrap;gap:8px 18px;margin:16px 0 0;padding:0;list-style:none;font-size:13px;color:var(--muted)}
+.steps li{display:flex;align-items:center;gap:8px}
+.steps i{font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink)}
+.notes{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.note{margin:0;border-radius:14px;padding:11px 15px;font-size:14px;line-height:1.45;border:1px solid}
+.note b{font-family:var(--f-read);font-weight:500;font-size:18px;color:var(--ink)}
+.n-fund{background:var(--mint);border-color:var(--mintB);color:var(--mintT)}
+.n-size{background:var(--pink);border-color:var(--pinkB);color:var(--pinkT)}
+
+.builder{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}
+.ghead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 14px;margin-bottom:14px}
+.ghead h2,.sheetbox h2,.orders h2{margin:0;font-size:18px;font-weight:600}
+.ghead p{margin:0;font-size:13px;color:var(--soft)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tabs button{border:1px solid var(--line);background:none;border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer;color:var(--muted)}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground);font-weight:600}
+.tabs small{opacity:.7;margin-left:4px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.st{position:relative;border:1px solid var(--line2);border-radius:14px;background:var(--ground);padding:12px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.st.big{grid-column:span 2}
+.st .art{width:100%;aspect-ratio:1/1;max-width:120px;display:grid;place-items:center;border:0;background:none;cursor:pointer;padding:0;transition:transform .15s ease}
+.st.big .art{max-width:240px;aspect-ratio:2/1}
+.st .art:hover{transform:scale(1.04) rotate(-1.5deg)}
+.st .art{position:relative}
+.st .art svg,.st .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 4px var(--shadow))}
+.st .nm{font-size:13px;line-height:1.3;color:var(--ink);min-height:2.6em}
+.st .sz{font-size:11px;color:var(--soft)}
+.st .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.st .acts button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}
+.st .acts button.add{background:var(--ink);border-color:var(--ink);color:var(--ground);font-weight:600}
+.st .acts button:disabled{opacity:.4;cursor:not-allowed}
+.st .cnt{position:absolute;top:8px;right:8px;min-width:22px;height:22px;border-radius:11px;background:var(--hot);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;padding:0 6px}
+
+.side{position:sticky;top:max(16px,env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:16px}
+.sheetbox .sh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}
+.sheetbox .sh span{font-size:13px;color:var(--soft)}
+.paper{background:var(--paper);border:1px solid var(--paperline);border-radius:10px;padding:10px;box-shadow:0 6px 18px var(--shadow);aspect-ratio:2/3;width:min(100%,250px);margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(4,1fr);grid-auto-flow:row dense;gap:7px;position:relative}
+.paper::after{content:"Sheet " attr(data-n);position:absolute;right:0;bottom:-20px;font-size:11px;color:var(--soft)}
+.slot{border:1.5px dashed var(--paperline);border-radius:10px;background:var(--slot);display:grid;place-items:center;min-width:0;min-height:0;padding:4px}
+.slot.on{border-style:solid;border-color:transparent;background:none;cursor:pointer;padding:2px}
+.slot.on.span2{grid-column:span 2}
+.slot{position:relative}
+.slot svg,.slot img{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:contain;filter:drop-shadow(0 1px 2px var(--shadow))}
+.slot.on:hover svg,.slot.on:hover img{opacity:.55}
+.meter{margin-top:30px;display:flex;gap:4px}
+.meter i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.meter i.f{background:var(--hot)}
+.hint{margin:8px 0 0;font-size:13px;color:var(--muted);min-height:1.4em}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tools button{border:1px solid var(--line);background:none;border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer}
+.tools button:disabled{opacity:.4;cursor:not-allowed}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;background:var(--ink);color:var(--ground);margin-top:12px}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.orders .ol{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.orow{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;padding:8px;border:1px solid var(--line2);border-radius:12px}
+.orow.editing{border-color:var(--hot)}
+.mini{background:var(--paper);border:1px solid var(--paperline);border-radius:4px;aspect-ratio:2/3;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(4,1fr);grid-auto-flow:row dense;gap:2px;padding:3px}
+.mini{cursor:zoom-in;width:100%;font:inherit;color:inherit;margin:0}
+.mini:hover{border-color:var(--soft)}
+.mini .slot{border-width:1px;border-radius:3px;padding:0}
+.mini .slot.on{cursor:inherit}
+.mini .slot.on{padding:0}
+.orow b{font-size:14px}
+.orow p{margin:2px 0 6px;font-size:12px;color:var(--soft);overflow-wrap:anywhere}
+.orow .oa{display:flex;gap:6px;flex-wrap:wrap}
+.orow .oa button{border:1px solid var(--line);background:none;border-radius:999px;padding:3px 9px;font-size:12px;cursor:pointer}
+.empty{font-size:14px;color:var(--soft);margin:10px 0 0}
+.total{display:flex;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:14px}
+.total b{font-size:16px}
+.later{font-size:12px;color:var(--soft);margin:8px 0 0;text-align:center}
+
+/* phone: the sheet becomes a tray at the bottom */
+@media (max-width:860px){
+  .builder{grid-template-columns:minmax(0,1fr)}
+  .side{position:static}
+  .sheetbox{position:fixed;left:0;right:0;bottom:0;z-index:20;border-radius:18px 18px 0 0;border-bottom:0;box-shadow:0 -8px 24px var(--shadow);
+    padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+  .sheetbox{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"paper sh" "paper hint" "paper tools" "btn btn";column-gap:14px;align-items:start}
+  .sheetbox .sh{grid-area:sh;margin-bottom:2px}
+  .sheetbox .hint{grid-area:hint}
+  .sheetbox .tools{grid-area:tools}
+  .sheetbox .btn{grid-area:btn}
+  .paper{grid-area:paper;height:126px;width:auto;aspect-ratio:2/3;padding:4px;gap:3px;box-shadow:none;margin:0}
+  .paper .slot{border-width:1px;border-radius:4px}
+  .paper::after{display:none}
+  .meter{display:none}
+  .hint{margin-top:6px;font-size:12px}
+  .tools{margin-top:6px}
+  .tools button{padding:5px 10px;font-size:12px}
+  .btn{margin-top:8px;padding:11px}
+  .gallery{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+}
+@media (prefers-reduced-motion:reduce){.st .art{transition:none}.st .art:hover{transform:none}}
+/* sticker preview */
+[hidden]{display:none!important}
+.pv{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(20,19,24,.55);padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.pv-box{background:var(--card);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:min(520px,100%);max-height:100%;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:12px;position:relative}
+.pv-img{background:var(--ground);border-radius:14px;padding:18px;display:grid;place-items:center}
+.pv-img img,.pv-img svg{width:100%;max-height:min(60vh,440px);object-fit:contain;filter:drop-shadow(0 3px 8px var(--shadow))}
+.pv-name{margin:0;font-family:var(--f-read);font-size:22px;line-height:1.25;text-wrap:balance}
+.pv-meta{margin:-6px 0 0;font-size:13px;color:var(--soft)}
+.pv-acts{display:flex;gap:8px;flex-wrap:wrap}
+.pv-acts button{border:1px solid var(--line);background:none;border-radius:999px;padding:9px 16px;font-size:14px;cursor:pointer}
+.pv-acts button.add{background:var(--ink);border-color:var(--ink);color:var(--ground);font-weight:600}
+.pv-acts button:disabled{opacity:.4;cursor:not-allowed}
+.pv-x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;z-index:1}
+.st .art{cursor:zoom-in}
+/* sheet view */
+.sv-sheet{width:min(100%,280px);margin:0 auto}
+.sv-sheet .paper{width:100%;box-shadow:0 6px 18px var(--shadow)}
+.sv-sheet .paper::after{display:none}
+.sv-sheet .slot.on{cursor:default}
+.sv-sheet .slot.on:hover img,.sv-sheet .slot.on:hover svg{opacity:1}
+.sv-list{margin:0;padding-left:20px;font-size:14px;line-height:1.7;color:var(--ink)}
+.sv-list span{color:var(--soft);margin-left:6px}
+.pv-box.sv{width:min(460px,100%)}
+/* prices */
+.tlabel{margin:22px 0 8px;font-size:13px;color:var(--soft)}
+.tiers{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:620px}
+.tiers li{position:relative;background:var(--chip);border:1px solid transparent;border-radius:12px;padding:12px 10px 10px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.tiers .q{font-size:13px;color:var(--muted)}
+.tiers .p{font-size:20px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.tiers .b{font-size:12px;color:var(--soft)}
+.tiers li.rec{background:var(--mint);border-color:var(--hot)}
+.tiers .badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--hot);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.tiers li.on{background:var(--ink);border-color:var(--ink)}
+.tiers li.on .q,.tiers li.on .b{color:var(--ground);opacity:.8}
+.tiers li.on .p{color:var(--ground)}
+@media (max-width:520px){.tiers{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:16px}}
+.pnote{margin:8px 0 0;font-size:12.5px;color:var(--soft)}
+.tnote{margin:6px 0 0;font-size:13px;color:var(--hot);font-weight:600;min-height:1.3em}
+/* details */
+.details{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+@media (max-width:860px){.details{grid-template-columns:minmax(0,1fr)}}
+.details h2{margin:0 0 4px;font-size:22px;font-weight:600}
+.details .sub{margin:0 0 18px;font-size:14px;color:var(--muted)}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.f label{font-size:13px;font-weight:600;color:var(--muted)}
+.f input,.f textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%}
+.f input:focus,.f textarea:focus{outline:2px solid var(--hot);outline-offset:0;border-color:transparent}
+.f small{font-size:12px;color:var(--soft)}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;color:var(--muted);margin-bottom:14px}
+.chk input{margin-top:3px;width:18px;height:18px;accent-color:var(--ink)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg label{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;flex:1 1 180px}
+.seg input{accent-color:var(--ink);width:auto;padding:0;margin:0;flex:none}
+.chk input{flex:none}
+.sum .srow{display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.sum .srow b{display:block;font-size:14px}
+.sum .srow span{display:block;font-size:13px;color:var(--soft);margin-top:2px}
+.sum .srow .linkbtn{margin-top:6px;font-size:13px}
+.sum .tot{display:flex;justify-content:space-between;padding-top:12px;font-size:15px}
+.sum .tot b{font-size:20px}
+.sum .ps{margin:6px 0 0;font-size:12px;color:var(--soft)}
+.ferr{color:#B3261E;font-size:14px;min-height:1.4em;margin:0 0 8px}
+.done{text-align:center;padding:32px 18px}
+.done h2{font-family:var(--f-read);font-weight:400;font-size:32px;margin:0 0 8px}
+.done p{color:var(--muted);margin:0 auto;max-width:46ch;line-height:1.6}
+.linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:14px;margin-top:10px;padding:0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+footer .ask{display:flex;margin:0 0 18px}
+footer .ask a{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+footer .ask a:hover{color:var(--ink);text-decoration-color:currentColor}
+footer .ask svg{width:16px;height:16px;flex:none}
+.cf .f{margin-bottom:10px}
+.cdone{margin:0;font-size:16px;line-height:1.5}
+footer{font-size:12.5px;line-height:1.6;color:var(--soft);border-top:1px solid var(--line);padding-top:18px;max-width:70ch}
+footer b{display:block;color:var(--muted);font-weight:600}
+</style>
+<script async src="https://pp-stats.reyhani.workers.dev/pp.js"></script>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top"><a class="brand" href="../../en/">Pause and Ponder</a></div>
+
+  <header>
+    <p class="kicker">Stickers</p>
+    <h1>Make your own sticker sheets</h1>
+    <p class="lead">Pick the stickers you love and arrange them into sheets. Fill a sheet with one favourite, or mix as many as you like. Each sheet has room for 8 stickers, and you can make as many sheets as you want.</p>
+    <ol class="steps"><li><i>1</i>Choose stickers</li><li><i>2</i>Fill a sheet</li><li><i>3</i>Add it to your order</li></ol>
+    <div class="notes">
+      <p class="note n-fund"><b>All proceeds go to the Fund</b></p>
+      <p class="note n-size">Small stickers take 1 space, wide ones take 2. A full sheet holds 8 spaces.</p>
+    </div>
+    <p class="tlabel">Price by number of sheets</p>
+    <ul class="tiers" id="tiers" aria-label="Prices">
+      <li data-n="1"><span class="q">1 sheet</span><span class="p">€6.50</span><span class="b">&nbsp;</span></li>
+      <li data-n="2"><span class="q">2 sheets</span><span class="p">€11.50</span><span class="b">€5.75 each</span></li>
+      <li data-n="3" class="rec"><span class="badge">Best value</span><span class="q">3 sheets</span><span class="p">€15</span><span class="b">€5 each</span></li>
+      <li data-n="4"><span class="q">4 or more</span><span class="p">€5</span><span class="b">per sheet</span></li>
+    </ul>
+    <p class="pnote">Postage is not included.</p>
+  </header>
+
+  <section class="builder">
+    <div class="panel">
+      <div class="ghead"><h2>Stickers</h2><p>Tap a sticker to see it larger. Use Add to put it on your sheet.</p></div>
+      <div class="tabs" id="tabs" role="group" aria-label="Sticker groups"></div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+
+    <div class="side">
+      <div class="panel sheetbox" id="sheetbox" aria-live="polite">
+        <div class="sh"><h2 id="sheetTitle">Your sheet</h2><span id="spaceCount">0 of 8 spaces</span></div>
+        <div class="paper" id="paper" data-n="1"></div>
+        <div class="meter" id="meter"></div>
+        <p class="hint" id="hint">Tap stickers on the left to fill your sheet.</p>
+        <div class="tools">
+          <button type="button" id="random">Fill the rest randomly</button>
+          <button type="button" id="clear">Clear sheet</button>
+        </div>
+        <button class="btn" type="button" id="addSheet" disabled>Add sheet to order</button>
+      </div>
+
+      <div class="panel orders">
+        <h2>Your order</h2>
+        <div class="ol" id="orderList"></div>
+        <p class="empty" id="orderEmpty">No sheets yet. Your finished sheets appear here.</p>
+        <div class="total"><span id="totalText">0 sheets</span><b id="totalPrice">€0.00</b></div>
+        <p class="tnote" id="tnote"></p>
+        <button class="btn" type="button" id="checkout" disabled>Continue to your details</button>
+        <p class="later">Next you enter your name, email and how you would like to receive the stickers.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="details" id="details" hidden aria-labelledby="dh">
+    <form class="panel" id="dform" novalidate>
+      <div id="dfields">
+        <h2 id="dh">Your details</h2>
+        <p class="sub">We use these only to confirm and deliver your order.</p>
+        <div class="f"><label for="dName">Name</label><input id="dName" autocomplete="name" required></div>
+        <div class="f"><label for="dEmail">Email</label><input id="dEmail" type="email" autocomplete="email" required></div>
+        <div class="f"><label for="dPhone">Phone number with country code (optional)</label><input id="dPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+49 170 1234567"></div>
+        <label class="chk"><input type="checkbox" id="dWa"><span>You can reach me on WhatsApp at this number</span></label>
+        <div class="f"><label>How would you like to receive them?</label>
+          <div class="seg"><label><input type="radio" name="dDel" value="post" checked> By post</label><label><input type="radio" name="dDel" value="hand"> Hand them to me in person</label></div></div>
+        <div class="f" id="addrBox"><label for="dAddr">Postal address</label><textarea id="dAddr" rows="3" autocomplete="street-address"></textarea><small>Postage is added in your order confirmation.</small></div>
+        <div class="f"><label for="dMsg">Note (optional)</label><textarea id="dMsg" rows="2"></textarea></div>
+        <label class="chk"><input type="checkbox" id="dOk" required><span>I agree that my details are used to process this order.</span></label>
+        <div class="hp" aria-hidden="true"><input type="text" id="pp_hp_x7" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
+        <p class="ferr" id="ferr" role="alert"></p>
+        <button class="btn" type="submit" id="send">Send order</button>
+        <p class="later">You will receive an order confirmation by email.</p>
+        <button type="button" class="linkbtn" id="backBuild">Back to your sheets</button>
+      </div>
+      <div class="done" id="dDone" hidden>
+        <h2>Thank you</h2>
+        <p id="doneText"></p>
+        <button type="button" class="linkbtn" id="again">Start a new order</button>
+      </div>
+    </form>
+    <aside class="panel sum" aria-label="Order summary">
+      <h2 style="font-size:18px">Summary</h2>
+      <div id="sumRows"></div>
+      <div class="tot"><span id="sumN"></span><b id="sumP"></b></div>
+      <p class="ps" id="sumPs"></p>
+    </aside>
+  </section>
+
+  <footer><div class="ask"><a href="#" data-contact=""><svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="2.5" y="4.5" width="15" height="11" rx="1.8"/><path d="M3 5.5l7 5.5 7-5.5"/></g></svg>Questions? Get in touch</a></div><b>A private, non-commercial initiative</b>Pause and Ponder is not a business, and nobody involved earns anything from it. All proceeds are passed on in full as a donation to the Fund. This page is shared personally and is not publicly listed.</footer>
+</div>
+
+<div class="pv" id="cm" hidden role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+  <div class="pv-box">
+    <button type="button" class="pv-x" id="cmClose" aria-label="Close">×</button>
+    <p class="pv-name" id="cmTitle">Get in touch</p>
+    <form class="cf" id="cform" novalidate>
+      <p class="pv-meta" style="margin:0 0 12px">Write us a few words. We will reply by email.</p>
+      <div class="f"><label for="cName">Your name</label><input id="cName" autocomplete="name"></div>
+      <div class="f"><label for="cEmail">Your email</label><input id="cEmail" type="email" autocomplete="email"></div>
+      <div class="f"><label for="cMsg">Your message</label><textarea id="cMsg" rows="4"></textarea></div>
+      <div class="f"><label for="cPhone">Your phone number with country code (optional)</label><input id="cPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+49 170 1234567"></div>
+      <label class="chk"><input type="checkbox" id="cWa"><span>You can reach me on WhatsApp at this number</span></label>
+      <div class="hp" aria-hidden="true"><input type="text" id="cHp" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
+      <p class="ferr" id="cErr" role="alert"></p>
+      <button class="btn" type="submit" id="cSend">Send message</button>
+    </form>
+    <p class="cdone" id="cDone" hidden>Thank you. Your message has been sent, and we will get back to you soon.</p>
+  </div>
+</div>
+<div class="pv" id="sv" hidden role="dialog" aria-modal="true" aria-labelledby="svName">
+  <div class="pv-box sv">
+    <button type="button" class="pv-x" id="svClose" aria-label="Close">×</button>
+    <p class="pv-name" id="svName">Sheet 1</p>
+    <div class="sv-sheet"><div class="paper" id="svPaper"></div></div>
+    <ul class="sv-list" id="svList"></ul>
+    <div class="pv-acts"><button type="button" class="add" id="svEdit">Edit this sheet</button><button type="button" id="svCopy">Copy</button><button type="button" id="svClose2">Close</button></div>
+  </div>
+</div>
+<div class="pv" id="pv" hidden role="dialog" aria-modal="true" aria-labelledby="pvName">
+  <div class="pv-box">
+    <button type="button" class="pv-x" id="pvClose" aria-label="Close">×</button>
+    <div class="pv-img" id="pvImg"></div>
+    <p class="pv-name" id="pvName"></p>
+    <p class="pv-meta" id="pvMeta"></p>
+    <div class="pv-acts"><button type="button" class="add" id="pvAdd">Add to sheet</button><button type="button" id="pvFill">Fill a whole sheet</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var CAP = 8;
+  // Placeholder stickers. Real artwork replaces the drawings; names and groups stay the same idea.
+  var IMG = {}; ["q-fellowship", "q-fingers", "q-deeds", "q-morn", "q-unity", "q-earth-stamp", "q-earth-space", "q-lamp", "q-vision", "i-equality", "i-joy", "i-family", "i-service-barrow", "i-service-gloves", "p-agreed", "p-community", "p-feast-bars", "p-glitter", "p-feast-hamster", "p-juju", "p-jy", "p-jujus-ducks", "p-jys-ducks", "p-gathering", "p-pigeon", "p-tea", "p-committees", "p-kiez"].forEach(function(k){ IMG[k] = "../img/" + k + ".webp"; });
+  var GROUPS = [
+    {id:"quotes", name:"Quotations"},
+    {id:"inspire", name:"Inspiration"},
+    {id:"play", name:"Playful"}
+  ];
+  var S = [
+    {id:"q-unity", g:"quotes", name:"So powerful is the light of unity", img:IMG["q-unity"]},
+    {id:"q-earth-stamp", g:"quotes", name:"The earth is but one country (stamp)", img:IMG["q-earth-stamp"]},
+    {id:"q-earth-space", g:"quotes", name:"The earth is but one country (space)", img:IMG["q-earth-space"]},
+    {id:"q-vision", g:"quotes", name:"Let your vision be world-embracing", img:IMG["q-vision"]},
+    {id:"q-fingers", g:"quotes", name:"Be ye as the fingers of one hand", img:IMG["q-fingers"]},
+    {id:"q-fellowship", g:"quotes", name:"Fellowship, fellowship! Love, love! Unity, unity!", img:IMG["q-fellowship"]},
+    {id:"q-deeds", g:"quotes", name:"Let deeds, not words, be your adorning", img:IMG["q-deeds"]},
+    {id:"q-morn", g:"quotes", name:"Let each morn be better than its eve", img:IMG["q-morn"]},
+    {id:"q-lamp", g:"quotes", name:"Thou art My lamp", img:IMG["q-lamp"]},
+    {id:"i-service-gloves", g:"inspire", name:"Service is prayer (gloves)", img:IMG["i-service-gloves"]},
+    {id:"i-service-barrow", g:"inspire", name:"Service is prayer (wheelbarrow)", img:IMG["i-service-barrow"]},
+    {id:"i-family", g:"inspire", name:"One human family. No exceptions.", img:IMG["i-family"]},
+    {id:"i-joy", g:"inspire", name:"Joy gives us wings!", img:IMG["i-joy"]},
+    {id:"i-equality", g:"inspire", name:"Equality is not a favour. It is a fact.", img:IMG["i-equality"]},
+    {id:"p-committees", g:"play", name:"I raised my hand once. Now I am on three committees.", img:IMG["p-committees"]},
+    {id:"p-gathering", g:"play", name:"It is not a meeting. It is a gathering.", img:IMG["p-gathering"]},
+    {id:"p-tea", g:"play", name:"Powered by tea and consultation", img:IMG["p-tea"]},
+    {id:"p-agreed", g:"play", name:"We agreed unanimously. Eventually.", img:IMG["p-agreed"], big:true},
+    {id:"p-feast-hamster", g:"play", name:"Feast has three parts (hamster)", img:IMG["p-feast-hamster"]},
+    {id:"p-feast-bars", g:"play", name:"Feast has three parts (chart)", img:IMG["p-feast-bars"]},
+    {id:"p-glitter", g:"play", name:"Children's class teacher. Fluent in glitter.", img:IMG["p-glitter"]},
+    {id:"p-pigeon", g:"play", name:"Created noble. Living it.", img:IMG["p-pigeon"]},
+    {id:"p-community", g:"play", name:"Community building, one neighborhood at a time (English)", img:IMG["p-community"]},
+    {id:"p-kiez", g:"play", name:"Community building, one Kiez at a time (Deutsch)", img:IMG["p-kiez"]},
+    {id:"p-jy", g:"play", name:"JY energy: unlimited (English)", img:IMG["p-jy"]},
+    {id:"p-juju", g:"play", name:"Juju energy: unlimited (Deutsch)", img:IMG["p-juju"]},
+    {id:"p-jys-ducks", g:"play", name:"My JYs are the best (English)", img:IMG["p-jys-ducks"], big:true},
+    {id:"p-jujus-ducks", g:"play", name:"Meine Jujus sind die Besten (Deutsch)", img:IMG["p-jujus-ducks"], big:true},
+  ];
+  var SHORT = {"q-unity": "Light of unity", "q-earth-stamp": "One country (stamp)", "q-earth-space": "One country (space)", "q-vision": "World-embracing", "q-fingers": "Fingers of one hand", "q-fellowship": "Fellowship, love, unity", "q-deeds": "Deeds, not words", "q-morn": "Each morn", "q-lamp": "My lamp", "i-service-gloves": "Service is prayer (gloves)", "i-service-barrow": "Service is prayer (wheelbarrow)", "i-family": "One human family", "i-joy": "Joy gives us wings", "i-equality": "Equality is a fact", "p-committees": "Three committees", "p-gathering": "Not a meeting", "p-tea": "Tea and consultation", "p-agreed": "Agreed unanimously", "p-feast-hamster": "Feast (hamster)", "p-feast-bars": "Feast (chart)", "p-glitter": "Fluent in glitter", "p-pigeon": "Created noble", "p-community": "Community building (EN)", "p-kiez": "Community building, Kiez (DE)", "p-jy": "JY energy (EN)", "p-juju": "Juju energy (DE)", "p-jys-ducks": "My JYs (EN)", "p-jujus-ducks": "Meine Jujus (DE)"};
+  var byId = {}; S.forEach(function(s){ byId[s.id] = s; s.short = SHORT[s.id] || s.name; });
+  function size(s){ return s.big ? 2 : 1; }
+
+  function art(s){
+    if (s.img) return '<img src="' + s.img + '" alt="" loading="lazy" decoding="async">';
+    var w = s.big ? 200 : 100, h = 100, p = 6, path;
+    if (s.shape === "circle") path = '<circle cx="50" cy="50" r="44"/>';
+    else if (s.shape === "square") path = '<rect x="8" y="8" width="84" height="84" rx="16"/>';
+    else if (s.shape === "arch") path = '<path d="M12 92 V46 A38 38 0 0 1 88 46 V92 Z"/>';
+    else path = '<rect x="8" y="14" width="184" height="72" rx="36"/>';
+    var lines = s.text, fs = s.big ? 17 : (lines.length > 2 ? 13 : 16), lh = fs * 1.12;
+    var cy = (s.shape === "arch" ? 56 : 50) - (lines.length - 1) * lh / 2;
+    var t = lines.map(function(l, i){ return '<text x="' + w/2 + '" y="' + (cy + i * lh + fs * .34).toFixed(1) + '">' + esc(l) + '</text>'; }).join("");
+    return '<svg viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' +
+      '<g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="' + p * 2 + '" stroke-linejoin="round">' + path + '</g>' +
+      '<g fill="' + s.bg + '">' + path + '</g>' +
+      '<g fill="' + s.fg + '" font-family="EB Garamond, Georgia, serif" font-size="' + fs + '" text-anchor="middle" font-style="italic">' + t + '</g></svg>';
+  }
+  function esc(x){ return String(x).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  var state = { group: "quotes", sheet: [], sheets: [], editing: -1 };
+  function used(sheet){ return sheet.reduce(function(a, id){ return a + size(byId[id]); }, 0); }
+
+  /* tabs and gallery */
+  function renderTabs(){
+    document.getElementById("tabs").innerHTML = GROUPS.map(function(g){
+      var n = S.filter(function(s){ return s.g === g.id; }).length;
+      return '<button type="button" data-g="' + g.id + '" aria-pressed="' + (state.group === g.id) + '">' + g.name + '<small>' + n + '</small></button>';
+    }).join("");
+  }
+  function renderGallery(){
+    var free = CAP - used(state.sheet);
+    document.getElementById("gallery").innerHTML = S.filter(function(s){ return s.g === state.group; }).map(function(s){
+      var onSheet = state.sheet.filter(function(id){ return id === s.id; }).length;
+      var fits = size(s) <= free;
+      return '<div class="st' + (s.big ? " big" : "") + '">' + (onSheet ? '<span class="cnt" aria-label="' + onSheet + ' on your sheet">' + onSheet + '</span>' : "") +
+        '<button type="button" class="art" data-view="' + s.id + '" aria-label="Show ' + esc(s.name) + ' larger">' + art(s) + '</button>' +
+        '<div class="nm">' + esc(s.name) + '</div><div class="sz">' + (s.big ? "Wide, 2 spaces" : "1 space") + '</div>' +
+        '<div class="acts"><button type="button" class="add" data-add="' + s.id + '"' + (fits ? "" : " disabled") + '>Add</button><button type="button" data-fill="' + s.id + '">Fill sheet</button></div></div>';
+    }).join("");
+  }
+
+  /* the sheet being built */
+  function slotsHTML(sheet){
+    var h = sheet.map(function(id, i){ var s = byId[id]; return '<div class="slot on' + (s.big ? " span2" : "") + '" data-rm="' + i + '" title="Tap to remove ' + esc(s.name) + '">' + art(s) + '</div>'; }).join("");
+    for (var k = used(sheet); k < CAP; k++) h += '<div class="slot"></div>';
+    return h;
+  }
+  function renderSheet(){
+    var u = used(state.sheet), n = state.editing > -1 ? state.editing + 1 : state.sheets.length + 1;
+    var paper = document.getElementById("paper");
+    paper.innerHTML = slotsHTML(state.sheet); paper.dataset.n = n;
+    document.getElementById("sheetTitle").textContent = state.editing > -1 ? "Editing sheet " + n : "Sheet " + n;
+    document.getElementById("spaceCount").textContent = u + " of " + CAP + " spaces";
+    document.getElementById("meter").innerHTML = Array.from({length: CAP}, function(_, i){ return '<i class="' + (i < u ? "f" : "") + '"></i>'; }).join("");
+    var hint = u === 0 ? "Tap stickers to fill your sheet. Tap a sticker on the sheet to take it off."
+      : u < CAP ? (CAP - u) + (CAP - u === 1 ? " space" : " spaces") + " left. You can add the sheet now, or fill the rest."
+      : "This sheet is full. Add it to your order.";
+    document.getElementById("hint").textContent = hint;
+    document.getElementById("addSheet").disabled = u === 0;
+    document.getElementById("addSheet").textContent = state.editing > -1 ? "Save changes" : "Add sheet to order";
+    document.getElementById("random").disabled = u >= CAP;
+    document.getElementById("clear").disabled = u === 0;
+  }
+
+  /* order list */
+  function renderOrders(){
+    var list = document.getElementById("orderList");
+    list.innerHTML = state.sheets.map(function(sh, i){
+      var kinds = {}; sh.forEach(function(id){ kinds[id] = 1; }); var nk = Object.keys(kinds).length;
+      return '<div class="orow' + (state.editing === i ? " editing" : "") + '"><button type="button" class="mini" data-sview="' + i + '" aria-label="Show sheet ' + (i + 1) + '">' + slotsHTML(sh) + '</button><div><b>Sheet ' + (i + 1) + '</b><p>' + sh.length + (sh.length === 1 ? " sticker" : " stickers") + ", " + (nk === 1 ? "all the same design" : nk + " designs") + '</p>' +
+        '<div class="oa"><button type="button" data-sview="' + i + '">View</button><button type="button" data-edit="' + i + '">Edit</button><button type="button" data-copy="' + i + '">Copy</button><button type="button" data-del="' + i + '">Remove</button></div></div></div>';
+    }).join("");
+    var n = state.sheets.length, st = state.sheets.reduce(function(a, sh){ return a + sh.length; }, 0);
+    document.getElementById("orderEmpty").hidden = n > 0;
+    document.getElementById("totalText").textContent = n ? n + (n === 1 ? " sheet, " : " sheets, ") + st + " stickers" : "0 sheets";
+    document.getElementById("checkout").disabled = n === 0;
+    refreshPrice();
+    if (!document.getElementById("details").hidden) { if (n === 0) document.getElementById("details").hidden = true; else renderSummary(); }
+  }
+  function renderAll(){ renderTabs(); renderGallery(); renderSheet(); renderOrders(); }
+
+  function add(id){ var s = byId[id]; if (used(state.sheet) + size(s) <= CAP) { state.sheet.push(id); renderGallery(); renderSheet(); } }
+  function fill(id){ var s = byId[id], out = []; while (used(out) + size(s) <= CAP) out.push(id);
+    // a wide sticker can leave a gap; top it up with small ones of the same group
+    var smalls = S.filter(function(x){ return !x.big && x.g === s.g; });
+    while (used(out) < CAP && smalls.length) out.push(smalls[out.length % smalls.length].id);
+    state.sheet = out; renderGallery(); renderSheet(); }
+
+  /* ================= Settings ================= */
+  var CONFIG = {
+    emailjsPublicKey: "lQJ7yo9MPXdRVjktk",
+    emailjsServiceId: "service_i94ego8",
+    emailjsTemplateId: "template_b66s43j",
+    imageBase: "https://pauseandponder.de/stickers/img/"
+  };
+  var PAGE_LANG = "English";
+  function sendMail(params){
+    return fetch("https://api.emailjs.com/api/v1.0/email/send", { method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ service_id: CONFIG.emailjsServiceId, template_id: CONFIG.emailjsTemplateId, user_id: CONFIG.emailjsPublicKey, template_params: params })
+    }).then(function(r){ if (!r.ok) throw new Error("status " + r.status); });
+  }
+  function buildEmail(o){
+    var F = "font-family:Helvetica,Arial,sans-serif;", B = "border-bottom:1px solid #EEECE8;";
+    function thumb(id){ return '<img src="' + CONFIG.imageBase + id + '.png" height="56" style="display:block;height:56px;width:auto;max-width:120px;border:0;margin:0 auto;" alt="' + esc(byId[id].short) + '">'; }
+    function sheetGrid(sh){
+      var rows = [], cur = [], w = 0;
+      sh.forEach(function(id){ var sz = size(byId[id]); if (w + sz > 2) { rows.push(cur); cur = []; w = 0; } cur.push(id); w += sz; if (w === 2) { rows.push(cur); cur = []; w = 0; } });
+      if (cur.length) rows.push(cur);
+      return '<table role="presentation" cellpadding="0" cellspacing="0" style="background:#FFFFFF;border:1px solid #D9D6D0;border-radius:8px;">' + rows.map(function(r){
+        return '<tr>' + r.map(function(id){ return '<td ' + (byId[id].big ? 'colspan="2" ' : '') + 'width="' + (byId[id].big ? 140 : 70) + '" align="center" style="padding:6px;">' + thumb(id) + '</td>'; }).join("") + (r.length === 1 && !byId[r[0]].big ? '<td width="70"></td>' : '') + '</tr>';
+      }).join("") + '</table>';
+    }
+    var all = {}, allOrder = [];
+    var sheetsHtml = o.sheets.map(function(sh, i){
+      var counts = {}, order = [];
+      sh.forEach(function(id){ if (!counts[id]) order.push(id); counts[id] = (counts[id] || 0) + 1; if (!all[id]) allOrder.push(id); all[id] = (all[id] || 0) + 1; });
+      var list = order.map(function(id){ return '<div style="' + F + 'font-size:14px;color:#1F1E24;padding:3px 0;">' + counts[id] + ' × ' + esc(byId[id].name) + '</div>'; }).join("");
+      return '<tr><td style="padding:16px 18px;' + B + '"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>' +
+        '<td width="160" valign="top" style="padding-right:14px;">' + sheetGrid(sh) + '</td>' +
+        '<td valign="top"><div style="' + F + 'font-size:17px;font-weight:bold;color:#1F1E24;margin-bottom:6px;">Sheet ' + (i + 1) + ' <span style="font-weight:normal;color:#6B6970;font-size:14px;">' + sh.length + ' stickers</span></div>' + list + '</td>' +
+      '</tr></table></td></tr>';
+    }).join("");
+    var totals = allOrder.map(function(id){ return '<tr><td style="' + F + 'font-size:14px;color:#1F1E24;padding:4px 0;' + B + '">' + esc(byId[id].name) + '</td><td align="right" style="' + F + 'font-size:15px;font-weight:bold;color:#1F1E24;padding:4px 0;' + B + '">' + all[id] + '</td></tr>'; }).join("");
+    var digits = o.phone.replace(/[^\d+]/g, "").replace(/^\+/, "").replace(/^00/, "");
+    function detail(l, v){ return '<tr><td style="' + F + 'font-size:13px;color:#6B6970;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap;">' + l + '</td><td style="' + F + 'font-size:15px;color:#1F1E24;padding:6px 0;vertical-align:top;">' + v + '</td></tr>'; }
+    return '<div style="background:#FAFAF8;padding:16px 8px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#FFFFFF;border:1px solid #E6E4E0;border-radius:14px;">' +
+      '<tr><td style="padding:24px 18px 10px;' + B + '"><div style="' + F + 'font-size:12px;letter-spacing:.06em;color:#6B6970;">PAUSE AND PONDER · STICKER ORDER</div>' +
+      '<div style="' + F + 'font-size:24px;font-weight:bold;color:#1F1E24;margin-top:6px;">' + o.sheets.length + (o.sheets.length === 1 ? ' sheet' : ' sheets') + ' · ' + eur(o.total) + '</div>' +
+      '<div style="' + F + 'font-size:15px;color:#55535C;margin-top:4px;">from ' + esc(o.name) + ', ' + (o.post ? 'by post, plus postage' : 'handed over in person') + '</div></td></tr>' +
+      sheetsHtml +
+      '<tr><td style="padding:18px;"><div style="' + F + 'font-size:16px;font-weight:bold;color:#1F1E24;margin-bottom:6px;">Stickers to print, all sheets together</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0">' + totals + '</table></td></tr>' +
+      '<tr><td style="padding:0 18px 8px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #1F1E24;"><tr><td style="' + F + 'font-size:17px;font-weight:bold;color:#1F1E24;padding-top:12px;">Total</td><td align="right" style="' + F + 'font-size:17px;font-weight:bold;color:#1F1E24;padding-top:12px;">' + eur(o.total) + (o.post ? ' + postage' : '') + '</td></tr></table></td></tr>' +
+      '<tr><td style="padding:16px 18px 26px;"><div style="' + F + 'font-size:16px;font-weight:bold;color:#1F1E24;margin-bottom:6px;">Customer</div><table role="presentation" cellpadding="0" cellspacing="0">' +
+        detail("Name", esc(o.name)) +
+        detail("Email", '<a href="mailto:' + esc(o.email) + '" style="color:#1F1E24;">' + esc(o.email) + '</a>') +
+        detail("Phone", o.phone ? '<a href="tel:' + esc(o.phone.replace(/\s/g, "")) + '" style="color:#1F1E24;">' + esc(o.phone) + '</a>' : "Not given") +
+        detail("WhatsApp", o.whatsapp ? 'Yes &nbsp;<a href="https://wa.me/' + esc(digits) + '" style="color:#1F1E24;">Open chat</a>' : "No") +
+        detail("Delivery", o.post ? "By post" : "In person") +
+        (o.post ? detail("Address", esc(o.address).replace(/\n/g, "<br>")) : "") +
+        (o.message ? detail("Note", esc(o.message).replace(/\n/g, "<br>")) : "") +
+        detail("Order page", "Stickers (" + PAGE_LANG + ")") +
+        detail("Received", esc(o.when)) +
+      '</table></td></tr></table></div>';
+  }
+
+  /* prices */
+  function price(n){ return n <= 0 ? 0 : n === 1 ? 6.5 : n === 2 ? 11.5 : 15 + (n - 3) * 5; }
+  function eur(v){ return "€" + v.toFixed(2); }
+  function refreshPrice(){
+    var n = state.sheets.length, p = price(n);
+    document.getElementById("totalPrice").textContent = eur(p);
+    var t = n === 1 ? "A second sheet adds only €5.00." : n === 2 ? "A third sheet adds only €3.50." : n >= 3 ? "Each further sheet is €5.00." : "";
+    document.getElementById("tnote").textContent = t;
+    var act = n >= 4 ? 4 : n;
+    Array.prototype.forEach.call(document.querySelectorAll("#tiers li"), function(li){ li.classList.toggle("on", +li.dataset.n === act); });
+  }
+  function renderSummary(){
+    var n = state.sheets.length;
+    document.getElementById("sumRows").innerHTML = state.sheets.map(function(sh, i){
+      return '<div class="srow"><button type="button" class="mini" data-sview="' + i + '" aria-label="Show sheet ' + (i + 1) + '">' + slotsHTML(sh) + '</button><div><b>Sheet ' + (i + 1) + '</b><span>' + sh.length + (sh.length === 1 ? ' sticker' : ' stickers') + '</span><button type="button" class="linkbtn" data-sview="' + i + '">View</button></div></div>';
+    }).join("");
+    document.getElementById("sumN").textContent = n + (n === 1 ? " sheet" : " sheets");
+    document.getElementById("sumP").textContent = eur(price(n));
+    var post = document.querySelector('input[name="dDel"]:checked').value === "post";
+    document.getElementById("sumPs").textContent = post ? "Plus postage, shown in your order confirmation." : "No postage, handed over in person.";
+    document.getElementById("send").textContent = "Send order · " + eur(price(n));
+  }
+  function showDetails(){
+    renderSummary();
+    document.getElementById("details").hidden = false;
+    document.getElementById("dfields").hidden = false; document.getElementById("dDone").hidden = true;
+    document.getElementById("details").scrollIntoView({behavior: "smooth", block: "start"});
+  }
+  document.getElementById("dform").addEventListener("change", function(e){
+    if (e.target.name === "dDel") { document.getElementById("addrBox").hidden = e.target.value !== "post"; renderSummary(); }
+  });
+  document.getElementById("dform").addEventListener("submit", function(e){
+    e.preventDefault();
+    if (/https?:|www\./i.test(document.getElementById("pp_hp_x7").value)) return;
+    var err = "", v = function(id){ return document.getElementById(id).value.trim(); };
+    var post = document.querySelector('input[name="dDel"]:checked').value === "post";
+    if (!state.sheets.length) err = "Please add at least one sheet to your order.";
+    else if (!v("dName")) err = "Please enter your name.";
+    else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v("dEmail"))) err = "Please enter a valid email address.";
+    else if ((document.getElementById("dWa").checked || v("dPhone")) && v("dPhone").replace(/\D/g, "").length < 6) err = "Please enter your phone number with the country code, for example +49.";
+    else if (post && !v("dAddr")) err = "Please enter your postal address.";
+    else if (!document.getElementById("dOk").checked) err = "Please tick the box to agree.";
+    document.getElementById("ferr").textContent = err;
+    if (err) return;
+    var n = state.sheets.length;
+    var o = { sheets: state.sheets.map(function(sh){ return sh.slice(); }), total: price(n), post: post, name: v("dName"), email: v("dEmail"), phone: v("dPhone"),
+      whatsapp: document.getElementById("dWa").checked, address: v("dAddr"), message: v("dMsg"), when: new Date().toLocaleString("de-DE", {dateStyle: "medium", timeStyle: "short"}) };
+    var text = o.sheets.map(function(sh, i){ var c = {}, ord = []; sh.forEach(function(id){ if (!c[id]) ord.push(id); c[id] = (c[id] || 0) + 1; });
+      return "Sheet " + (i + 1) + ":\n" + ord.map(function(id){ return "  " + c[id] + " x " + byId[id].name; }).join("\n"); }).join("\n\n") +
+      "\n\nTotal: " + eur(o.total) + (post ? " plus postage" : "") + "\nDelivery: " + (post ? "By post\n" + o.address : "In person") + (o.message ? "\nNote: " + o.message : "");
+    var btn = document.getElementById("send"); btn.disabled = true; btn.textContent = "Sending…";
+    sendMail({ subject: "Sticker order: " + n + (n === 1 ? " sheet, " : " sheets, ") + eur(o.total) + " from " + o.name,
+      customer_name: o.name, customer_email: o.email, customer_phone: o.phone, whatsapp: o.whatsapp ? "Yes" : "No", total: eur(o.total),
+      order_text: text, order_html: buildEmail(o) })
+    .then(function(){
+      document.getElementById("doneText").textContent = "Your order for " + n + (n === 1 ? " sheet" : " sheets") + " (" + eur(o.total) + (post ? " plus postage" : "") + ") has been sent. We will reply to " + o.email + " with an order confirmation.";
+      document.getElementById("dfields").hidden = true; document.getElementById("dDone").hidden = false;
+      document.getElementById("details").scrollIntoView({behavior: "smooth", block: "start"});
+    })
+    .catch(function(){ document.getElementById("ferr").textContent = "Sending did not work. Please check your connection and try again. If it keeps failing, please write to us using the link at the bottom of the page."; })
+    .then(function(){ btn.disabled = false; renderSummary(); });
+  });
+
+  /* contact */
+  var cmLast = null;
+  function openContact(){ cmLast = document.activeElement; var cm = document.getElementById("cm"); cm.hidden = false; document.getElementById("cform").hidden = false; document.getElementById("cDone").hidden = true; document.getElementById("cErr").textContent = "";
+    if (!document.getElementById("cName").value) document.getElementById("cName").value = document.getElementById("dName").value;
+    if (!document.getElementById("cEmail").value) document.getElementById("cEmail").value = document.getElementById("dEmail").value;
+    document.getElementById(document.getElementById("cName").value ? "cMsg" : "cName").focus(); }
+  function closeContact(){ document.getElementById("cm").hidden = true; if (cmLast) cmLast.focus(); }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-contact]"), function(a){ a.addEventListener("click", function(ev){ ev.preventDefault(); openContact(); }); });
+  document.getElementById("cmClose").addEventListener("click", closeContact);
+  document.getElementById("cm").addEventListener("click", function(e){ if (e.target.id === "cm") closeContact(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !document.getElementById("cm").hidden) closeContact(); });
+  document.getElementById("cform").addEventListener("submit", function(e){
+    e.preventDefault();
+    if (/https?:|www\./i.test(document.getElementById("cHp").value)) return;
+    var v = function(id){ return document.getElementById(id).value.trim(); }, er = document.getElementById("cErr");
+    var n = v("cName"), em = v("cEmail"), m = v("cMsg"), ph = v("cPhone"), wa = document.getElementById("cWa").checked;
+    if (!n) { er.textContent = "Please enter your name."; return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { er.textContent = "Please enter a valid email address."; return; }
+    if (!m) { er.textContent = "Please write a short message."; return; }
+    if ((wa || ph) && ph.replace(/\D/g, "").length < 6) { er.textContent = "Please enter your phone number, including the country code."; return; }
+    var F = "font-family:Helvetica,Arial,sans-serif;", digits = ph.replace(/[^\d+]/g, "").replace(/^\+/, "").replace(/^00/, "");
+    function row(l, x){ return '<tr><td style="' + F + 'font-size:13px;color:#6B6970;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap;">' + l + '</td><td style="' + F + 'font-size:15px;color:#1F1E24;padding:6px 0;vertical-align:top;">' + x + '</td></tr>'; }
+    var html = '<div style="background:#FAFAF8;padding:16px 8px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;margin:0 auto;background:#fff;border:1px solid #E6E4E0;border-radius:14px;"><tr><td style="padding:24px 20px;">' +
+      '<div style="' + F + 'font-size:12px;letter-spacing:.06em;color:#6B6970;">PAUSE AND PONDER · NEW MESSAGE</div>' +
+      '<div style="' + F + 'font-size:22px;font-weight:bold;color:#1F1E24;margin:6px 0 4px;">From ' + esc(n) + '</div>' +
+      '<div style="' + F + 'font-size:14px;color:#55535C;margin-bottom:14px;">Topic: Stickers</div>' +
+      '<div style="' + F + 'font-size:16px;line-height:1.55;color:#1F1E24;white-space:pre-wrap;border-left:3px solid #E8408C;padding:4px 0 4px 14px;margin-bottom:18px;">' + esc(m) + '</div>' +
+      '<table role="presentation" cellpadding="0" cellspacing="0">' + row("Email", '<a href="mailto:' + esc(em) + '" style="color:#1F1E24;">' + esc(em) + '</a>') +
+      row("Phone", ph ? '<a href="tel:' + esc(ph.replace(/\s/g, "")) + '" style="color:#1F1E24;">' + esc(ph) + '</a> &nbsp;<a href="https://wa.me/' + esc(digits) + '" style="color:#1F1E24;">Open WhatsApp chat</a>' : "Not given") +
+      row("WhatsApp", wa ? "Yes, prefers WhatsApp" : "No") + row("Page", "Sticker page (" + PAGE_LANG + ")") +
+      row("Received", esc(new Date().toLocaleString("de-DE", {dateStyle: "medium", timeStyle: "short"}))) + '</table></td></tr></table></div>';
+    var b = document.getElementById("cSend"); b.disabled = true; b.textContent = "Sending…";
+    sendMail({ subject: "Message from " + n + ": Stickers", customer_name: n, customer_email: em, customer_phone: ph, whatsapp: wa ? "Yes" : "No", order_text: m, order_html: html })
+      .then(function(){ document.getElementById("cform").hidden = true; document.getElementById("cDone").hidden = false; document.getElementById("cMsg").value = ""; })
+      .catch(function(){ er.textContent = "Sending did not work. Please try again in a moment."; })
+      .then(function(){ b.disabled = false; b.textContent = "Send message"; });
+  });
+
+  /* sheet view */
+  var svIdx = -1, svLast = null;
+  function openSheet(i){
+    var sh = state.sheets[i]; if (!sh) return; svIdx = i; svLast = document.activeElement;
+    document.getElementById("svName").textContent = "Sheet " + (i + 1);
+    document.getElementById("svPaper").innerHTML = slotsHTML(sh);
+    var counts = {}, order = []; sh.forEach(function(id){ if (!counts[id]) order.push(id); counts[id] = (counts[id] || 0) + 1; });
+    document.getElementById("svList").innerHTML = order.map(function(id){ return "<li>" + esc(byId[id].short) + (counts[id] > 1 ? "<span>× " + counts[id] + "</span>" : "") + "</li>"; }).join("");
+    document.getElementById("sv").hidden = false; document.getElementById("svClose").focus();
+  }
+  function closeSheet(){ document.getElementById("sv").hidden = true; svIdx = -1; if (svLast) svLast.focus(); }
+  document.getElementById("sv").addEventListener("click", function(e){ if (e.target.id === "sv") closeSheet(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && svIdx > -1) closeSheet(); });
+
+  /* preview */
+  var pvId = null, pvLast = null;
+  function openPreview(id){
+    var s = byId[id]; pvId = id; pvLast = document.activeElement;
+    document.getElementById("pvImg").innerHTML = art(s);
+    document.getElementById("pvName").textContent = s.name;
+    var g = GROUPS.filter(function(x){ return x.id === s.g; })[0];
+    document.getElementById("pvMeta").textContent = (g ? g.name + ", " : "") + (s.big ? "wide, takes 2 spaces" : "takes 1 space");
+    refreshPreview();
+    document.getElementById("pv").hidden = false;
+    document.getElementById("pvClose").focus();
+  }
+  function refreshPreview(){
+    if (pvId == null) return;
+    var free = CAP - used(state.sheet), s = byId[pvId], on = state.sheet.filter(function(x){ return x === pvId; }).length;
+    var b = document.getElementById("pvAdd");
+    b.disabled = size(s) > free;
+    b.textContent = size(s) > free ? "Sheet is full" : (on ? "Add another (" + on + " on sheet)" : "Add to sheet");
+  }
+  function closePreview(){ document.getElementById("pv").hidden = true; pvId = null; if (pvLast) pvLast.focus(); }
+  document.getElementById("pv").addEventListener("click", function(e){ if (e.target.id === "pv") closePreview(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && pvId != null) closePreview(); });
+
+  document.addEventListener("click", function(e){
+    var b = e.target.closest("button, .slot.on"); if (!b) return;
+    if (b.classList.contains("slot") && b.closest(".mini, .sv-sheet")) { b = b.closest("button"); if (!b) return; }
+    var d = b.dataset;
+    if (d.g) { state.group = d.g; renderTabs(); renderGallery(); }
+    else if (d.view) openPreview(d.view);
+    else if (d.sview != null) openSheet(+d.sview);
+    else if (b.id === "svClose" || b.id === "svClose2") closeSheet();
+    else if (b.id === "svEdit") { var ei = svIdx; closeSheet(); state.editing = ei; state.sheet = state.sheets[ei].slice(); renderAll(); document.getElementById("sheetbox").scrollIntoView({behavior: "smooth", block: "nearest"}); }
+    else if (b.id === "svCopy") { var ci = svIdx; closeSheet(); state.sheets.splice(ci + 1, 0, state.sheets[ci].slice()); if (state.editing > ci) state.editing++; renderOrders(); }
+    else if (b.id === "pvClose") closePreview();
+    else if (b.id === "pvAdd") { add(pvId); refreshPreview(); }
+    else if (b.id === "pvFill") { fill(pvId); closePreview(); }
+    else if (d.add) add(d.add);
+    else if (d.fill) fill(d.fill);
+    else if (d.rm != null) { state.sheet.splice(+d.rm, 1); renderGallery(); renderSheet(); }
+    else if (b.id === "random") {
+      var tries = 0;
+      while (used(state.sheet) < CAP && tries++ < 50) { var free = CAP - used(state.sheet), pool = S.filter(function(s){ return size(s) <= free; }); state.sheet.push(pool[Math.floor(Math.random() * pool.length)].id); }
+      renderGallery(); renderSheet();
+    }
+    else if (b.id === "clear") { state.sheet = []; renderGallery(); renderSheet(); }
+    else if (b.id === "addSheet") {
+      if (state.editing > -1) state.sheets[state.editing] = state.sheet.slice(); else state.sheets.push(state.sheet.slice());
+      state.sheet = []; state.editing = -1; renderAll();
+    }
+    else if (d.edit != null) { state.editing = +d.edit; state.sheet = state.sheets[state.editing].slice(); renderAll(); document.getElementById("sheetbox").scrollIntoView({behavior: "smooth", block: "nearest"}); }
+    else if (d.copy != null) { state.sheets.splice(+d.copy + 1, 0, state.sheets[+d.copy].slice()); if (state.editing > +d.copy) state.editing++; renderOrders(); }
+    else if (d.del != null) { var i = +d.del; state.sheets.splice(i, 1); if (state.editing === i) { state.editing = -1; state.sheet = []; } else if (state.editing > i) state.editing--; renderAll(); }
+    else if (b.id === "checkout") showDetails();
+    else if (b.id === "backBuild") document.querySelector(".builder").scrollIntoView({behavior: "smooth", block: "start"});
+    else if (b.id === "again") { state.sheets = []; state.sheet = []; state.editing = -1; document.getElementById("details").hidden = true; document.getElementById("dform").reset(); document.getElementById("addrBox").hidden = false; renderAll(); window.scrollTo({top: 0, behavior: "smooth"}); }
+  });
+
+  // Start with one example sheet in the order and a half-built sheet, so the mockup shows how it works.
+  renderAll();
+})();
+</script>
+</body>
+</html>
