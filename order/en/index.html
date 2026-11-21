@@ -130,6 +130,9 @@ textarea.in{height:auto;padding:10px 12px;resize:vertical}
 .foot .ask a:hover,.foot .ask a:focus-visible{color:var(--ink,#1d1c20);text-decoration-color:currentColor}
 .foot .ask svg{width:16px;height:16px;flex:none}
 .card{position:relative}
+.fav{position:relative;display:inline-grid;place-items:center;flex:none;width:40px;height:40px;margin:-10px 0;transform:rotate(-10deg)}
+.fav svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 2px 3px rgba(232,64,140,.25))}
+.tag .fav b{position:relative;color:#fff;font-family:'EB Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:13px;letter-spacing:0}
 .sticker{position:absolute;z-index:2;top:-30px;right:-6px;width:112px;height:112px;transform:rotate(9deg);text-decoration:none;transition:transform .25s ease}
 .sticker:hover,.sticker:focus-visible{transform:rotate(0deg) scale(1.05)}
 .sticker svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 3px 6px rgba(232,64,140,.25))}
@@ -289,23 +292,28 @@ var CONFIG = {
 var PRODUCTS = [
   { id: "round", nick: "Pebble", name: "Round Tag", plural: "round tags", desc: "A round tag with a keyring loop.", cost: 0.61, min: 10,
     tiers: [ {from: 10, price: 3.25}, {from: 20, price: 3.00}, {from: 50, price: 2.30}, {from: 100, price: 2.10} ] },
-  { id: "rect", nick: "Ticket", name: "Rectangular Tag", plural: "rectangular tags", desc: "The classic Blessed keychain tag.", cost: 1.00, min: 10,
-    tiers: [ {from: 10, price: 4.25}, {from: 20, price: 4.00}, {from: 50, price: 3.25}, {from: 100, price: 2.50} ] },
   { id: "clicker", nick: "Clicky", name: "Clicker Tag", plural: "clickers", desc: "A fidget clicker with the NFC chip built in.", cost: 1.90, min: 10,
-    tiers: [ {from: 10, price: 5.25}, {from: 20, price: 5.00}, {from: 50, price: 4.25}, {from: 100, price: 3.50} ] }
+    tiers: [ {from: 10, price: 5.25}, {from: 20, price: 5.00}, {from: 50, price: 4.25}, {from: 100, price: 3.50} ] },
+  { id: "rect", nick: "Ticket", name: "Rectangular Tag", plural: "rectangular tags", desc: "The classic Blessed keychain tag.", cost: 1.00, min: 10,
+    tiers: [ {from: 10, price: 4.25}, {from: 20, price: 4.00}, {from: 50, price: 3.25}, {from: 100, price: 2.50} ] }
 ];
 
 var COLOURS = [
+  {id: "babybluepetrol", name: "Baby blue, petrol letters", hex: "#C6E2F2", only: ["round", "clicker"]},
   {id: "petrol",   name: "Petrol blue",        hex: "#3C658D"},
-  {id: "petrolpink", name: "Petrol, pink letters", hex: "#3C658D", only: ["round"]},
+  {id: "petrolpink", name: "Petrol, pink letters", hex: "#3C658D", only: ["round", "clicker"], fav: ["round", "clicker"]},
   {id: "yellow",   name: "Pastel yellow",      hex: "#EFDF94"},
   {id: "pink",     name: "Hot pink",           hex: "#F94697"},
-  {id: "peach",    name: "Peach",              hex: "#FFC387"},
+  {id: "peach",    name: "Peach",              hex: "#FFC387", fav: ["round", "clicker"]},
   {id: "mint",     name: "Mint",               hex: "#B2E0C3"},
   {id: "mintpink", name: "Mint, pink letters", hex: "#B2E0C3"},
+  {id: "forestmint", name: "Forest, mint letters", hex: "#5FA07A", only: ["round", "clicker"], fav: ["round", "clicker"]},
+  {id: "mintforest", name: "Mint, forest letters", hex: "#B2E0C3", only: ["round", "clicker"]},
   {id: "coffee",   name: "Coffee",             hex: "#BE9776"}
 ];
 // "only" limits a colour to certain products (by product id).
+var FAV_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="100.00,50.00 94.22,54.98 98.75,61.13 92.00,64.70 95.05,71.69 87.68,73.68 89.09,81.17 81.47,81.47 81.17,89.09 73.68,87.68 71.69,95.05 64.70,92.00 61.13,98.75 54.98,94.22 50.00,100.00 45.02,94.22 38.87,98.75 35.30,92.00 28.31,95.05 26.32,87.68 18.83,89.09 18.53,81.47 10.91,81.17 12.32,73.68 4.95,71.69 8.00,64.70 1.25,61.13 5.78,54.98 0.00,50.00 5.78,45.02 1.25,38.87 8.00,35.30 4.95,28.31 12.32,26.32 10.91,18.83 18.53,18.53 18.83,10.91 26.32,12.32 28.31,4.95 35.30,8.00 38.87,1.25 45.02,5.78 50.00,0.00 54.98,5.78 61.13,1.25 64.70,8.00 71.69,4.95 73.68,12.32 81.17,10.91 81.47,18.53 89.09,18.83 87.68,26.32 95.05,28.31 92.00,35.30 98.75,38.87 94.22,45.02" fill="#E8408C"/><circle cx="50" cy="50" r="39" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="4 4" opacity=".75"/></svg>';
+function favBadge(p, c) { return (c.fav && c.fav.indexOf(p.id) > -1) ? '<span class="fav">' + FAV_SVG + '<b>Fav</b></span>' : ""; }
 function coloursFor(p) { return COLOURS.filter(function (c) { return !c.only || c.only.indexOf(p.id) > -1; }); }
 /* ======================================================= */
 
@@ -334,7 +342,7 @@ PRODUCTS.forEach(function (p) {
   var rows = coloursFor(p).map(function (c) {
     var dims = p.id === "rect" ? ' width="110" height="25"' : "";
     return '<div class="grid row">' +
-      '<div class="tag"><span class="pic"><img src="' + imgSrc(p, c) + '" alt=""' + dims + ' loading="lazy"></span><span>' + c.name + '</span></div>' +
+      '<div class="tag"><span class="pic"><img src="' + imgSrc(p, c) + '" alt=""' + dims + ' loading="lazy"></span><span>' + c.name + '</span>' + favBadge(p, c) + '</div>' +
       '<input class="num" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="0" id="en-' + p.id + '-' + c.id + '" aria-label="' + p.nick + ', ' + c.name + ', English">' +
       '<input class="num" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="0" id="de-' + p.id + '-' + c.id + '" aria-label="' + p.nick + ', ' + c.name + ', Deutsch">' +
       '<span class="r tot" id="t-' + p.id + '-' + c.id + '">0</span>' +
@@ -495,9 +503,9 @@ form.addEventListener("submit", function (ev) {
   o.message = document.getElementById("message").value.trim();
   o.when = new Date().toLocaleString("de-DE", {dateStyle: "medium", timeStyle: "short"});
 
-  if (!o.qty) return showErr("Please enter at least one piece above.", "en-" + PRODUCTS[0].id + "-" + COLOURS[0].id);
+  if (!o.qty) return showErr("Please enter at least one piece above.", "en-" + PRODUCTS[0].id + "-" + coloursFor(PRODUCTS[0])[0].id);
   var short = o.products.filter(function (x) { return x.short; })[0];
-  if (short) return showErr(short.p.nick + " is sold from " + short.p.min + " pieces. Please add " + (short.p.min - short.qty) + " more.", "en-" + short.p.id + "-" + COLOURS[0].id);
+  if (short) return showErr(short.p.nick + " is sold from " + short.p.min + " pieces. Please add " + (short.p.min - short.qty) + " more.", "en-" + short.p.id + "-" + coloursFor(short.p)[0].id);
   if (!o.name) return showErr("Please enter your name.", "name");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(o.email)) return showErr("Please enter a valid email address.", "email");
   if (o.phone.replace(/\D/g, "").length < 6) return showErr("Please enter your mobile number, including the country code.", "phone");
